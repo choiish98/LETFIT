@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+// 빨리 다운 로드 해라 이것들아;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,17 +17,5 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        SignInButton button = (SignInButton) findViewById(R.id.login_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("click test");
-            }
-        });
     }
 }
