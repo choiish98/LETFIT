@@ -1,9 +1,11 @@
 package com.example.letfit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +28,8 @@ public class signUpActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.sign_up_btn).setOnClickListener(onClickListener);
+        findViewById(R.id.sign_up_btn).setOnClickListener(onClickListener); //회원가입 버튼 클릭 함수
+        findViewById(R.id.gotologin).setOnClickListener(onClickListener); //로그인 버튼 클릭
     }
 
     @Override
@@ -37,43 +40,51 @@ public class signUpActivity extends AppCompatActivity {
         //ui
     }
 
-    View.OnClickListener onClickListener = new View.OnClickListener() {
+    View.OnClickListener onClickListener = new View.OnClickListener() {  //클릭 했을 때
         @Override
         public void onClick(View view) {
             switch(view.getId()){
-                case R.id.sign_up_btn:
+                case R.id.sign_up_btn: //회원가입버튼을 클릭 했을 때
                     sign();
+                    break;
+                case R.id.gotologin:
+                    Intent intent = new Intent(signUpActivity.this, LogInActivity.class);
+                    startActivity(intent);
                     break;
             }
         }
     };
 
-    private void sign() {
-        String email = ((EditText)findViewById(R.id.user_id)).getText().toString();
-        String password = ((EditText)findViewById(R.id.user_pw)).getText().toString();
-        String passwordCheck = ((EditText)findViewById(R.id.user_pw_check)).getText().toString();
+    private void sign() {    //회원가입 함수
+        String email = ((EditText)findViewById(R.id.user_id)).getText().toString();   //이메일
+        String password = ((EditText)findViewById(R.id.user_pw)).getText().toString();  //비밀번호
+        String passwordCheck = ((EditText)findViewById(R.id.user_pw_check)).getText().toString();  //비밀번호 확인
 
-        if(password.equals(passwordCheck)) {
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                // 성공 시 ui
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                // 실패 시 ui
+        if(email.length() > 0 && password.length() > 0 && passwordCheck.length() > 0) {
+            if (password.equals(passwordCheck)) { // 비밀번호와 비밀번호 확인이 일치 할 때
+                mAuth.createUserWithEmailAndPassword(email, password) //로그인 시도
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    startToast("회원가입에 성공하였습니다.");
+                                } else {
+                                    if (task.getException() != null) { // 회원가입 실패 시 에러 코드 출력
+                                        startToast(task.getException().toString());
+                                    }
+                                }
                             }
-
-                            // ...
-                        }
-                    });
+                        });
+            } else { //비밀번호와 비밀번호 확인 불일치 시
+                startToast("비밀번호가 일치하지 않습니다.");
+            }
         } else {
-
+            startToast("이메일 또는 비밀번호를 입력해주세요.");
         }
+    }
+
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
