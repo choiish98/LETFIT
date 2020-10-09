@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "239231413969",
+    "firebase_url": "https://letfit-f6580.firebaseio.com",
+    "project_id": "letfit-f6580",
+    "storage_bucket": "letfit-f6580.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239231413969:android:89babd135d6d1cb7fb1ff0",
+        "android_client_info": {
+          "package_name": "com.example.letfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239231413969-lg0cggd209324p7vegmi0cmucitk9sd4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.letfit",
+            "certificate_hash": "0445c455e29745bdcaea8600750292368186edc7"
+          }
+        },
+        {
+          "client_id": "239231413969-kbcbhokspif4vvmf99mib5nt859v30gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoH6G4CkVS2Oly8hT_-DmrF_rBFjHVnIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239231413969-kbcbhokspif4vvmf99mib5nt859v30gb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

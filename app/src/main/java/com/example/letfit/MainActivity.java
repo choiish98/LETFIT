@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
-// 빨리 다운 로드 해라 이것들아;asdfasdf
+// 빨리 다운 로드 해라 이것들아;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        findViewById(R.id.user_id);
 
     }
 }
