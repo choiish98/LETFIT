@@ -2,6 +2,7 @@ package com.example.letfit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,5 +20,23 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.user_id);
 
+        Button loginBtn = (Button) findViewById(R.id.logInBtn);
+        Button signUpBtn = (Button) findViewById(R.id.signUpBtn);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, signUpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

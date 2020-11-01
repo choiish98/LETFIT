@@ -1,5 +1,6 @@
 package com.example.letfit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -61,6 +62,8 @@ public class LogInActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 startToast("회원가입에 성공하였습니다.");
+                                Intent intent = new Intent(LogInActivity.this, graph.class);
+                                startActivity(intent);
                             } else {
                                 if (task.getException() != null) { // 회원가입 실패 시 에러 코드 출력
                                     startToast(task.getException().toString());

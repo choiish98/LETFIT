@@ -27,17 +27,19 @@ public class graph extends AppCompatActivity {
 
         ArrayList<RadarEntry> visitorsForFirstWebsite = new ArrayList<>();
         visitorsForFirstWebsite.add(new RadarEntry(420));
-        visitorsForFirstWebsite.add(new RadarEntry(420));
-        visitorsForFirstWebsite.add(new RadarEntry(420));
-        visitorsForFirstWebsite.add(new RadarEntry(420));
-        visitorsForFirstWebsite.add(new RadarEntry(420));
-        visitorsForFirstWebsite.add(new RadarEntry(420));
+        visitorsForFirstWebsite.add(new RadarEntry(654));
+        visitorsForFirstWebsite.add(new RadarEntry(540));
+        visitorsForFirstWebsite.add(new RadarEntry(480));
+        visitorsForFirstWebsite.add(new RadarEntry(040));
+        visitorsForFirstWebsite.add(new RadarEntry(620));
 
         RadarDataSet radarDataSetForFirstWebsite = new RadarDataSet(visitorsForFirstWebsite, "website 1");
         radarDataSetForFirstWebsite.setColor(Color.RED);
         radarDataSetForFirstWebsite.setLineWidth(2f);
         radarDataSetForFirstWebsite.setValueTextColor(Color.RED);
         radarDataSetForFirstWebsite.setValueTextSize(14f);
+        radarDataSetForFirstWebsite.setDrawFilled(true);
+        radarDataSetForFirstWebsite.setFillColor(Color.RED);
 
         RadarData radarData = new RadarData();
         radarData.addDataSet(radarDataSetForFirstWebsite);
