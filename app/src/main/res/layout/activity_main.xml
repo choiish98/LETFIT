@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <com.github.mikephil.charting.charts.RadarChart
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:id="@+id/radarChart">
+    </com.github.mikephil.charting.charts.RadarChart>
 
     <Button
-        android:id="@+id/logInBtn"
+        android:id="@+id/logOutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="로그인" />
-
-    <Button
-        android:id="@+id/signUpBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="회원가입" />
+        android:text="로그아웃" />
 </LinearLayout>

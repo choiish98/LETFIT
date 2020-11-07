@@ -66,7 +66,7 @@ public class LogInActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     startToast("로그인에 성공하였습니다.");
-                                    Intent intent = new Intent(LogInActivity.this, graph.class);
+                                    Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                                     startActivity(intent);
                                 } else {
                                     // If sign in fails, display a message to the user.

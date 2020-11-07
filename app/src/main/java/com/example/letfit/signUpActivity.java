@@ -68,7 +68,7 @@ public class signUpActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     startToast("회원가입에 성공하였습니다.");
-                                    Intent intent = new Intent(signUpActivity.this, graph.class);
+                                    Intent intent = new Intent(signUpActivity.this, MainActivity.class);
                                     startActivity(intent);
                                 } else {
                                     if (task.getException() != null) { // 회원가입 실패 시 에러 코드 출력
