@@ -39,14 +39,6 @@ public class signUpActivity extends AppCompatActivity {
         //ui
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        moveTaskToBack(true);
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
-    }
-
     View.OnClickListener onClickListener = new View.OnClickListener() {  //클릭 했을 때
         @Override
         public void onClick(View view) {

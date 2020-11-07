@@ -40,6 +40,15 @@ public class LogInActivity extends AppCompatActivity {
         //ui
     }
 
+    // 뒤로가기 막음
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+    }
+
     View.OnClickListener onClickListener = new View.OnClickListener() {  //클릭 했을 때
         @Override
         public void onClick(View view) {
@@ -67,7 +76,7 @@ public class LogInActivity extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     startToast("로그인에 성공하였습니다.");
                                     Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 메인 뒤로가기 막음
                                     startActivity(intent);
                                 } else {
                                     // If sign in fails, display a message to the user.
