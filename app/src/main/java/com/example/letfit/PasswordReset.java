@@ -2,6 +2,7 @@ package com.example.letfit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class PasswordReset extends AppCompatActivity {
-    private static final String TAG = "SignUpAcitivty";
     private FirebaseAuth mAuth;
 
     @Override
@@ -46,32 +46,19 @@ public class PasswordReset extends AppCompatActivity {
 
     private void send() {     //회원가입 함수
         String email = ((EditText)findViewById(R.id.user_id)).getText().toString();   //이메일
-        String password = ((EditText)findViewById(R.id.user_pw)).getText().toString();  //비밀번호
 
-        if(email.length() > 0 && password.length() > 0) {
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    startToast("로그인에 성공하였습니다.");
-                                    Intent intent = new Intent(PasswordReset.this, MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 메인 뒤로가기 막음
-                                    startActivity(intent);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    if (task.getException() != null) { // 회원가입 실패 시 에러 코드 출력
-                                        startToast(task.getException().toString());
-                                    }
-                                    // ...
-                                }
-
-                                // ...
+        if(email.length() > 0 ) {
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                startToast("이메일을 보냈습니다.");
                             }
-                        });
+                        }
+                    });
             } else {
-            startToast("이메일 또는 비밀번호를 입력해주세요.");
+            startToast("이메일을 입력해주세요.");
         }
     }
 

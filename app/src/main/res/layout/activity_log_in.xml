@@ -48,4 +48,11 @@
         android:layout_weight="1"
         android:text="회원가입 화면으로 이동" />
 
+    <Button
+        android:id="@+id/gotoPasswordResetBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="비밀번호 재설정" />
+
 </LinearLayout>

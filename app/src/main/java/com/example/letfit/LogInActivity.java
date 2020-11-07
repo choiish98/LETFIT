@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LogInActivity extends AppCompatActivity {
-    private static final String TAG = "SignUpAcitivty";
     private FirebaseAuth mAuth;
 
     @Override
@@ -30,6 +29,7 @@ public class LogInActivity extends AppCompatActivity {
 
         findViewById(R.id.log_in_btn).setOnClickListener(onClickListener); //로그인 버튼 클릭 함수
         findViewById(R.id.gotosignup).setOnClickListener(onClickListener); //회원가입 버튼 클릭 함수
+        findViewById(R.id.gotoPasswordResetBtn).setOnClickListener(onClickListener); //비밀번호 재설정 버튼 클릭 함수
     }
 
 
@@ -50,11 +50,18 @@ public class LogInActivity extends AppCompatActivity {
                     login();
                     break;
                 case R.id.gotosignup:
-                    Intent intent = new Intent(LogInActivity.this, signUpActivity.class);
-                    startActivity(intent);
+                    startMyActivity(signUpActivity.class);
+                case R.id.gotoPasswordResetBtn:
+                    startMyActivity(PasswordReset.class);
             }
         }
     };
+
+    // intent 함수 정의
+    private void startMyActivity(Class c) {
+        Intent intent = new Intent(LogInActivity.this, c);
+        startActivity(intent);
+    }
 
     private void login() {     //회원가입 함수
         String email = ((EditText)findViewById(R.id.user_id)).getText().toString();   //이메일
@@ -90,4 +97,6 @@ public class LogInActivity extends AppCompatActivity {
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+
 }
