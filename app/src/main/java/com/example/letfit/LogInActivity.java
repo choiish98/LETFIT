@@ -66,6 +66,8 @@ public class LogInActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     startToast("로그인에 성공하였습니다.");
+                                    Intent intent = new Intent(LogInActivity.this, graph.class);
+                                    startActivity(intent);
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     if (task.getException() != null) { // 회원가입 실패 시 에러 코드 출력
@@ -84,7 +86,5 @@ public class LogInActivity extends AppCompatActivity {
 
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(LogInActivity.this, graph.class);
-        startActivity(intent);
     }
 }

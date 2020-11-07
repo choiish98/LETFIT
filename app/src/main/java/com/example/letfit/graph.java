@@ -1,7 +1,9 @@
 package com.example.letfit;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +13,7 @@ import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -21,8 +24,14 @@ public class graph extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout);
+        setContentView(R.layout.graph);
 
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            Intent intent = new Intent(graph.this, LogInActivity.class);
+            startActivity(intent);
+        }
+
+        // 육각형 기능
         RadarChart radarChart = findViewById(R.id.radarChart);
 
         ArrayList<RadarEntry> visitorsForFirstWebsite = new ArrayList<>();
@@ -51,5 +60,23 @@ public class graph extends AppCompatActivity {
 
         radarChart.getDescription().setText("Radar Chart Example");
         radarChart.setData(radarData);
+        // 육각형
+
+        // 로그아웃 버튼
+        findViewById(R.id.logOutBtn).setOnClickListener(onClickListener);
+        // 로그아웃 버튼
     }
+
+    // onClickListener 정의
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.logOutBtn:
+                    FirebaseAuth.getInstance().signOut();
+                    break;
+            }
+        }
+    };
+    // onClickListener 정의
 }

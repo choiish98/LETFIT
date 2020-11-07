@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".graph">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +20,7 @@
         <activity android:name=".LogInActivity"/>
         <activity android:name=".signUpActivity"/>
         <activity android:name=".graph"/>
+        <activity android:name=".SnsActivity"/>
     </application>
 
 </manifest>
