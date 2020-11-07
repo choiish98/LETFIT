@@ -2,7 +2,6 @@ package com.example.letfit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -28,7 +27,7 @@ public class signUpActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.sign_up_btn).setOnClickListener(onClickListener); //회원가입 버튼 클릭 함수
+        findViewById(R.id.gotosignup).setOnClickListener(onClickListener); //회원가입 버튼 클릭 함수
         findViewById(R.id.gotologin).setOnClickListener(onClickListener); //로그인 버튼 클릭
     }
 
@@ -44,7 +43,7 @@ public class signUpActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             switch(view.getId()){
-                case R.id.sign_up_btn: //회원가입버튼을 클릭 했을 때
+                case R.id.gotosignup: //회원가입버튼을 클릭 했을 때
                     sign();
                     break;
                 case R.id.gotologin:
