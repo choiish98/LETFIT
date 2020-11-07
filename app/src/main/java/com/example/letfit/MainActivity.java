@@ -63,9 +63,10 @@ public class MainActivity extends AppCompatActivity {
         radarChart.setData(radarData);
         // 육각형
 
-        // 로그아웃 버튼
+        // 버튼 정의
         findViewById(R.id.logOutBtn).setOnClickListener(onClickListener);
-        // 로그아웃 버튼
+        findViewById(R.id.gotoSNS).setOnClickListener(onClickListener);
+        // 버튼 정의
     }
 
     // onClickListener 정의
@@ -75,12 +76,22 @@ public class MainActivity extends AppCompatActivity {
             switch (view.getId()){
                 case R.id.logOutBtn:
                     FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(MainActivity.this, LogInActivity.class);
-                    startActivity(intent);
+                    gotoLoginActivity();
                     break;
+                case R.id.gotoSNS:
+                    gotoSnsActivity();
             }
         }
     };
-    // onClickListener 정의
+
+    // intent Acitivity 정의
+    private void gotoSnsActivity() {
+        Intent intent = new Intent(MainActivity.this, SnsActivity.class);
+        startActivity(intent);
+    }
+    private void gotoLoginActivity() {
+        Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+        startActivity(intent);
+    }
 }
 
