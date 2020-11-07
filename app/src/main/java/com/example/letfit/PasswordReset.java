@@ -2,7 +2,6 @@ package com.example.letfit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,30 +15,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LogInActivity extends AppCompatActivity {
+public class PasswordReset extends AppCompatActivity {
     private static final String TAG = "SignUpAcitivty";
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_in);
+        setContentView(R.layout.activity_password_reset);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.log_in_btn).setOnClickListener(onClickListener); //로그인 버튼 클릭 함수
-        findViewById(R.id.gotosignup).setOnClickListener(onClickListener); //회원가입 버튼 클릭 함수
-    }
-
-
-    // 뒤로가기 막음
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        moveTaskToBack(true);
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
+        findViewById(R.id.sendBtn).setOnClickListener(onClickListener); //로그인 버튼 클릭 함수
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {  //클릭 했을 때
@@ -47,16 +35,16 @@ public class LogInActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.log_in_btn: //로그인 버튼을 클릭 했을 때
-                    login();
+                    send();
                     break;
                 case R.id.gotosignup:
-                    Intent intent = new Intent(LogInActivity.this, signUpActivity.class);
+                    Intent intent = new Intent(PasswordReset.this, signUpActivity.class);
                     startActivity(intent);
             }
         }
     };
 
-    private void login() {     //회원가입 함수
+    private void send() {     //회원가입 함수
         String email = ((EditText)findViewById(R.id.user_id)).getText().toString();   //이메일
         String password = ((EditText)findViewById(R.id.user_pw)).getText().toString();  //비밀번호
 
@@ -68,7 +56,7 @@ public class LogInActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     startToast("로그인에 성공하였습니다.");
-                                    Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(PasswordReset.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 메인 뒤로가기 막음
                                     startActivity(intent);
                                 } else {

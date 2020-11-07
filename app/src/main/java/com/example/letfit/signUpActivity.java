@@ -31,13 +31,6 @@ public class signUpActivity extends AppCompatActivity {
         findViewById(R.id.gotologin).setOnClickListener(onClickListener); //로그인 버튼 클릭
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //ui
-    }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {  //클릭 했을 때
         @Override
