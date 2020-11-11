@@ -34,18 +34,15 @@ public class PasswordReset extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.log_in_btn: //로그인 버튼을 클릭 했을 때
+                case R.id.sendBtn: //로그인 버튼을 클릭 했을 때
                     send();
                     break;
-                case R.id.gotosignup:
-                    Intent intent = new Intent(PasswordReset.this, signUpActivity.class);
-                    startActivity(intent);
             }
         }
     };
 
     private void send() {     //회원가입 함수
-        String email = ((EditText)findViewById(R.id.user_id)).getText().toString();   //이메일
+        String email = ((EditText)findViewById(R.id.emailEditText)).getText().toString();   //이메일
 
         if(email.length() > 0 ) {
             mAuth.sendPasswordResetEmail(email)
