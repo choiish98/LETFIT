@@ -19,7 +19,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
-// 빨리 다운 로드 해라 이것들아;
+// 빨리 다운 로드 해라 이것들아; dd
 
 public class MainActivity extends AppCompatActivity {
 
