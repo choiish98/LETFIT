@@ -23,9 +23,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 
 import static android.graphics.Color.rgb;
 // 빨리 다운 로드 해라 이것들아;
+=======
+// 빨리 다운 로드 해라 이것들아; dd
+>>>>>>> master
 
 public class MainActivity extends AppCompatActivity {
 
