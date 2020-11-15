@@ -9,50 +9,54 @@
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:layout_weight="1"
-        android:text="로그인"
+        android:background="@drawable/radius_border"
+        android:gravity="center"
+        android:text="회원 정보"
         android:textColor="#000000"
         android:textSize="24sp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:background="@drawable/radius_border"/>
+        android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/user_id"
+        android:id="@+id/nameeditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:hint="아이디"
+        android:hint="이름"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/user_pw"
+        android:id="@+id/phoneeditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:hint="비밀번호"
-        android:inputType="textPersonName" />
+        android:hint="전화번호"
+        android:inputType="phone" />
 
-    <Button
-        android:id="@+id/log_in_btn"
-        android:layout_width="401dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="로그인 하기" />
-
-    <Button
-        android:id="@+id/gotosignup"
+    <EditText
+        android:id="@+id/birtheditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="회원가입 화면으로 이동" />
+        android:ems="10"
+        android:hint="생년월일"
+        android:inputType="date" />
 
-    <Button
-        android:id="@+id/gotoPasswordResetBtn"
+    <EditText
+        android:id="@+id/addresseditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="비밀번호 재설정" />
+        android:ems="10"
+        android:hint="주소"
+        android:inputType="textPostalAddress" />
+
+    <Button
+        android:id="@+id/checkbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="확인" />
 
 </LinearLayout>

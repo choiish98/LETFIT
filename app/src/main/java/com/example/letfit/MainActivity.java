@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
 
@@ -30,9 +33,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(FirebaseAuth.getInstance().getCurrentUser() == null){
-            Intent intent = new Intent(MainActivity.this, LogInActivity.class);
-            startActivity(intent);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            // 자동 로그인
+            gotoActivity(LogInActivity.class);
+        } else {
+            if (user != null) {
+                for (UserInfo profile : user.getProviderData()) {
+                    // 회원 정보 받아오는 부분
+                    String name = profile.getDisplayName();
+
+                    if(name != null){
+                        gotoActivity(MemberInitActivity.class);
+                    }
+                }
+            }
         }
 
         // 육각형 기능
@@ -97,21 +113,17 @@ public class MainActivity extends AppCompatActivity {
             switch (view.getId()){
                 case R.id.logOutBtn:
                     FirebaseAuth.getInstance().signOut();
-                    gotoLoginActivity();
+                    gotoActivity(LogInActivity.class);
                     break;
                 case R.id.gotoSNS:
-                    gotoSnsActivity();
+                    gotoActivity(SnsActivity.class);
             }
         }
     };
 
     // intent Acitivity 정의
-    private void gotoSnsActivity() {
-        Intent intent = new Intent(MainActivity.this, SnsActivity.class);
-        startActivity(intent);
-    }
-    private void gotoLoginActivity() {
-        Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+    private void gotoActivity(Class c) {
+        Intent intent = new Intent(MainActivity.this, c);
         startActivity(intent);
     }
 }

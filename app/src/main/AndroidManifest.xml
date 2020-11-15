@@ -28,6 +28,7 @@
         <activity android:name=".signUpActivity"/>
         <activity android:name=".SnsActivity"/>
         <activity android:name=".PasswordReset"/>
+        <activity android:name=".MemberInitActivity"/>
     </application>
 
 </manifest>
