@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
             // 자동 로그인
             gotoActivity(LogInActivity.class);
         } else {
+            gotoActivity(CameraActivity.class);
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference docRef = db.collection("users").document(user.getUid());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
