@@ -1,7 +1,5 @@
 package com.example.letfit;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,14 +9,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MemberInitActivity extends AppCompatActivity {
+    private static final String TAG = "MemberInitActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +37,42 @@ public class MemberInitActivity extends AppCompatActivity {
         }
     };
 
-    private void profileUpdate() {     // 프로필 업데이트 함수
-        String name = ((EditText)findViewById(R.id.nameeditText)).getText().toString();   // 이름
+    // 뒤로가기 막기
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 
-        if(name.length() > 0) {
+    // 프로필 업데이트
+    private void profileUpdate() {
+        String name = ((EditText)findViewById(R.id.nameeditText)).getText().toString();   // 이름
+        String phone = ((EditText)findViewById(R.id.phoneeditText)).getText().toString();   // 전화번호
+        String birth = ((EditText)findViewById(R.id.birtheditText)).getText().toString();   // 생일
+        String address = ((EditText)findViewById(R.id.addresseditText)).getText().toString();   // 주소
+
+        if(name.length() > 0 && phone.length() > 9 && birth.length() > 5 && address.length() > 0) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(name)
-                    .build();
+            // cloud 초기화
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            if(user != null){
-                user.updateProfile(profileUpdates)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+            // DB set
+            MemberInfo memberInfo = new MemberInfo(name, phone, birth, address); // 회원 정보 객체 (MemberInfo.java)
+            if(user != null) {
+                db.collection("users").document(user.getUid()).set(memberInfo)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    startToast("회원 정보 등록을 성공하였습니다.");
-                                    finish();
-                                }
+                            public void onSuccess(Void avoid) {
+                                startToast("회원 정보 등록을 성공하였습니다.");
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                startToast("회원 정보 등록에 실패하였습니다.");
+                                Log.w(TAG, "Error adding document", e);
                             }
                         });
             }
@@ -69,6 +84,4 @@ public class MemberInitActivity extends AppCompatActivity {
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
-
-
 }

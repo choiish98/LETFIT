@@ -1,13 +1,13 @@
 package com.example.letfit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -16,22 +16,21 @@ import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
 
 import static android.graphics.Color.rgb;
 // 빨리 다운 로드 해라 이것들아;
-=======
-// 빨리 다운 로드 해라 이것들아; dd
->>>>>>> master
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +42,26 @@ public class MainActivity extends AppCompatActivity {
             // 자동 로그인
             gotoActivity(LogInActivity.class);
         } else {
-            if (user != null) {
-                for (UserInfo profile : user.getProviderData()) {
-                    // 회원 정보 받아오는 부분
-                    String name = profile.getDisplayName();
-
-                    if(name != null){
-                        gotoActivity(MemberInitActivity.class);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference docRef = db.collection("users").document(user.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if(document != null) {
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            } else {
+                                Log.d(TAG, "No such document");
+                                gotoActivity(MemberInitActivity.class);
+                            }
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
                     }
                 }
-            }
+            });
         }
 
         // 육각형 기능

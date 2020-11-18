@@ -36,6 +36,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.google.firebase:firebase-core:17.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.google.firebase:firebase-firestore:21.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

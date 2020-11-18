@@ -99,6 +99,4 @@ public class LogInActivity extends AppCompatActivity {
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
-
-
 }
