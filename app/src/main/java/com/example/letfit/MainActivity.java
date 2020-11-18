@@ -2,7 +2,6 @@ package com.example.letfit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,11 +19,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 
 import static android.graphics.Color.rgb;
@@ -72,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         radarChart.setWebColor(Color.WHITE);        // 세로줄 없애기
         radarChart.setWebLineWidth(1f);
         radarChart.setWebColorInner(Color.WHITE);   // 가로줄 없애기
+        //radarChart.setWebColorInner(Color.WHITE);   // 가로줄 없애기
         radarChart.setWebAlpha(100);
         radarChart.getLegend().setTextColor(Color.WHITE);
         radarChart.getLegend().setTextColor(Color.WHITE);
