@@ -9,13 +9,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +41,8 @@ import static android.graphics.Color.rgb;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainAcitivty";
+    private LineChart mChart;
+    private BarChart barChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             // 자동 로그인
             gotoActivity(LogInActivity.class);
         } else {
-            gotoActivity(CameraActivity.class);
+            //gotoActivity(MemberInitActivity.class);
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference docRef = db.collection("users").document(user.getUid());
@@ -115,6 +126,65 @@ public class MainActivity extends AppCompatActivity {
         radarChart.setData(radarData);
         radarChart.invalidate();
         // 육각형
+
+        // 곡선 그래프
+        mChart = (LineChart) findViewById(R.id.lineChart);
+
+        //mChart.setOnChartGestureListener(MainActivity.this);
+        //mChart.setOnChartValueSelectedListener(MainActivity.this);
+
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(false);
+
+        ArrayList<Entry> yValues = new ArrayList<>();
+
+        yValues.add(new Entry(0, 20f));
+        yValues.add(new Entry(1, 35f));
+        yValues.add(new Entry(2, 46f));
+        yValues.add(new Entry(3, 50f));
+        yValues.add(new Entry(4, 10f));
+        yValues.add(new Entry(5, 60f));
+        yValues.add(new Entry(6, 30f));
+
+        LineDataSet set1 = new LineDataSet(yValues, "Data set 1");
+
+        set1.setFillAlpha(110);
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+
+        LineData data = new LineData(dataSets);
+
+        mChart.setData(data);
+        // 곡선 그래프
+
+        //막대 그래프
+        barChart = findViewById(R.id.barChart);
+
+        barChart.setDrawBarShadow(false);
+        barChart.setMaxVisibleValueCount(50);
+        barChart.setDrawValueAboveBar(true);
+        barChart.setPinchZoom(false);
+        barChart.setDrawGridBackground(true);
+
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+
+
+        barEntries.add(new BarEntry(1,5f));
+        barEntries.add(new BarEntry(2,10f));
+        barEntries.add(new BarEntry(3,15f));
+        barEntries.add(new BarEntry(4,10f));
+        barEntries.add(new BarEntry(5,30f));
+        barEntries.add(new BarEntry(6,25f));
+
+        BarDataSet barDataSet = new BarDataSet(barEntries,"bar Data Set1");
+        barDataSet.setColor(rgb(150, 31, 47));
+
+        BarData barData = new BarData(barDataSet);
+        barData.setBarWidth(0.9f);
+
+        barChart.setData(barData);
+        //막대 그래프
 
         // 버튼 정의
         findViewById(R.id.logOutBtn).setOnClickListener(onClickListener);

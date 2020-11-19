@@ -262,6 +262,7 @@ public class Camera2BasicFragment extends Fragment
      * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
      * still image is ready to be saved.
      */
+    /*
     private final ImageReader.OnImageAvailableListener mOnImageAvailableListener
             = new ImageReader.OnImageAvailableListener() {
 
@@ -271,6 +272,12 @@ public class Camera2BasicFragment extends Fragment
         }
 
     };
+    */
+
+    private ImageReader.OnImageAvailableListener mOnImageAvailableListener;
+    public void setmOnImageAvailableListener(ImageReader.OnImageAvailableListener mOnImageAvailableListener) {
+        this.mOnImageAvailableListener = mOnImageAvailableListener;
+    }
 
     /**
      * {@link CaptureRequest.Builder} for the camera preview
@@ -629,7 +636,7 @@ public class Camera2BasicFragment extends Fragment
     /**
      * Closes the current {@link CameraDevice}.
      */
-    private void closeCamera() {
+    public void closeCamera() {
         try {
             mCameraOpenCloseLock.acquire();
             if (null != mCaptureSession) {

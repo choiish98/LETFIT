@@ -1,9 +1,14 @@
 package com.example.letfit;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,23 +20,32 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.File;
+
 public class MemberInitActivity extends AppCompatActivity {
     private static final String TAG = "MemberInitActivity";
+    private ImageView profileImageView; // 프로필 사진
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_init);
 
+        profileImageView = findViewById(R.id.profileImageView);
+        profileImageView.setOnClickListener(onClickListener); // 프로필 사진 설정
         findViewById(R.id.checkbtn).setOnClickListener(onClickListener); // 로그인 버튼 클릭 함수
     }
 
+    // click listener
     View.OnClickListener onClickListener = new View.OnClickListener() {  //클릭 했을 때
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.checkbtn: // 확인 버튼을 클릭 했을 때
                     profileUpdate();
+                    break;
+                case R.id.profileImageView: // 프로필 사진 클릭 시
+                    gotoActivity(CameraActivity.class);
                     break;
             }
         }
@@ -42,6 +56,26 @@ public class MemberInitActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    // 찍은 사진 파일 경로 받아오기
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 0 : {
+                if(resultCode == Activity.RESULT_OK){
+                    String profilePath = data.getStringExtra("profilePath");
+                    Log.e("로그: ", "profilePath:"+profilePath);
+
+                    // 전송 받은 file string을 img로 생성하여 profileImage로 업데이트
+                    Bitmap bmp = BitmapFactory.decodeFile(profilePath);
+                    ImageView img;
+                    profileImageView.setImageBitmap(bmp);
+                }
+                break;
+            }
+        }
     }
 
     // 프로필 업데이트
@@ -83,5 +117,11 @@ public class MemberInitActivity extends AppCompatActivity {
 
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    // intent Acitivity 정의
+    private void gotoActivity(Class c) {
+        Intent intent = new Intent(MemberInitActivity.this, c);
+        startActivityForResult(intent, 0);
     }
 }
