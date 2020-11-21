@@ -3,43 +3,41 @@ package com.example.letfit;
 import android.widget.EditText;
 
 public class MemberInfo {
-    private String name; // 이름
-    private String phone;   // 전화번호
-    private String birth;   // 생일
-    private String address;   // 주소
+    private String nickName; // 닉네임
+    private String weight;   // 몸무게
+    private String height;   // 현재 키
+    private String photoUrl; // 프로필 사진
 
-    public MemberInfo(String name, String phone, String birth, String address){
-        this.name = name;
-        this.phone = phone;
-        this.birth = birth;
-        this.address = address;
-    }
-
-    public String getName(){
-        return this.name;
-    }
-    public void setName(String name){
-        this.name = name;
+    public MemberInfo(String nickName, String weight, String height, String photoUrl){
+        this.nickName = nickName;
+        this.weight = weight;
+        this.height = height;
+        this.photoUrl = photoUrl;
     }
 
-    public String getPhone(){
-        return this.phone;
+    public String getNickName(){
+        return this.nickName;
     }
-    public void setPhone(String phone){
-        this.phone = phone;
-    }
-
-    public String getBirth(){
-        return this.birth;
-    }
-    public void setBirth(String birth){
-        this.birth = birth;
+    public void setNickName(String name){
+        this.nickName = nickName;
     }
 
-    public String getAddress(){
-        return this.name;
+    public String getWeight(){
+        return this.weight;
     }
-    public void setAddress(String address){
-        this.address = address;
+    public void setWeight(String phone){
+        this.weight = weight;
     }
+
+    public String getHeight(){
+        return this.height;
+    }
+    public void setHeight(String birth){
+        this.height = height;
+    }
+
+    public String getPhotoUrl(){
+        return this.photoUrl;
+    }
+    public void setPhotoUrl(String address){ this.photoUrl = photoUrl; }
 }
