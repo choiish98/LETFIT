@@ -206,6 +206,7 @@ public class MainActivity extends BasicActivity {
                     break;
                 case R.id.gotoSNS:
                     gotoActivity(SnsActivity.class);
+                    break;
             }
         }
     };
