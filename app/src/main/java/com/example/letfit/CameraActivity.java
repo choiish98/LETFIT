@@ -23,14 +23,12 @@ import android.media.ImageReader;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends BasicActivity {
     Camera2BasicFragment camera2BasicFragment;
 
     /**

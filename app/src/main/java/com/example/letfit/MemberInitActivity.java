@@ -2,8 +2,6 @@ package com.example.letfit;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class MemberInitActivity extends AppCompatActivity {
+public class MemberInitActivity extends BasicActivity {
     private static final String TAG = "MemberInitActivity";
     private ImageView profileImageView; // 프로필 사진
     private String profilePath;
