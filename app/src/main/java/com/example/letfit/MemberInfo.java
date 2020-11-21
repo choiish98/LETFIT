@@ -8,6 +8,12 @@ public class MemberInfo {
     private String height;   // 현재 키
     private String photoUrl; // 프로필 사진
 
+    public MemberInfo(String nickName, String weight, String height){
+        this.nickName = nickName;
+        this.weight = weight;
+        this.height = height;
+    }
+
     public MemberInfo(String nickName, String weight, String height, String photoUrl){
         this.nickName = nickName;
         this.weight = weight;

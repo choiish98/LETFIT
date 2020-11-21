@@ -38,14 +38,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="picture" />
+            android:text="촬영" />
 
         <Button
-            android:id="@+id/change"
+            android:id="@+id/gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Change" />
+            android:text="변환" />
     </LinearLayout>
 
 </RelativeLayout>
