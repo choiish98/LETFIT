@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -93,12 +94,11 @@ public class MemberInitActivity extends AppCompatActivity {
             case 0 : {
                 if(resultCode == Activity.RESULT_OK){
                     profilePath = data.getStringExtra("profilePath");
-                    Log.e("로그: ", "profilePath:"+profilePath);
-
-                    // 전송 받은 file string을 img로 생성하여 profileImage로 업데이트
-                    Bitmap bmp = BitmapFactory.decodeFile(profilePath);
-                    ImageView img;
-                    profileImageView.setImageBitmap(bmp);
+                    Glide.with(this)
+                            .load(profilePath)
+                            .centerCrop()
+                            .override(500)
+                            .into(profileImageView);
                 }
                 break;
             }
