@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import static android.graphics.Color.rgb;
 // 빨리 다운 로드 해라 이것들아;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BasicActivity {
     private static final String TAG = "MainAcitivty";
     private LineChart mChart;
     private BarChart barChart;
