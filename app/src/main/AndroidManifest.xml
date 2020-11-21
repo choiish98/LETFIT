@@ -3,8 +3,8 @@
     package="com.example.letfit">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -36,6 +36,7 @@
         <activity android:name=".PasswordReset"/>
         <activity android:name=".MemberInitActivity"/>
         <activity android:name=".CameraActivity"/>
+        <activity android:name=".GalleryActivity"/>
     </application>
 
 </manifest>

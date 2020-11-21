@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
             // 자동 로그인
             gotoActivity(LogInActivity.class);
         } else {
-            //gotoActivity(MemberInitActivity.class);
-
+            // 회원 정보 유무 확인
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference docRef = db.collection("users").document(user.getUid());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

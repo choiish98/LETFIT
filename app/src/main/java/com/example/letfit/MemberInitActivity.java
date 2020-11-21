@@ -72,7 +72,7 @@ public class MemberInitActivity extends AppCompatActivity {
                     gotoActivity(CameraActivity.class);
                     break;
                 case R.id.gallery: // 갤러리 클릭 시
-                    //gotoActivity(CameraActivity.class);
+                    gotoActivity(GalleryActivity.class);
                     break;
             }
         }
