@@ -215,8 +215,8 @@ public class WritePostActivity extends BasicActivity {
                                         if (pathList.size() == successCount) {
                                             //finish
 
-                                            WriteInfo writeInfo = new WriteInfo(title, contentlist, user.getUid(), new Date());    // 회원 정보 객체 (MemberInfo.java)
-                                            dbUpLoader(documentReference, writeInfo);                                                  // db upload
+                                            PostInfo postInfo = new PostInfo(title, contentlist, user.getUid(), new Date());    // 회원 정보 객체 (MemberInfo.java)
+                                            dbUpLoader(documentReference, postInfo);                                                  // db upload
 
                                             for (int a = 0; a < contentlist.size(); a++) {
                                                 Log.e("로그", "콘텐츠" + contentlist.get(a));
@@ -233,8 +233,8 @@ public class WritePostActivity extends BasicActivity {
                 }
             }
             if (pathList.size() == 0) {
-                WriteInfo writeInfo = new WriteInfo(title, contentlist, user.getUid(), new Date());    // 회원 정보 객체 (MemberInfo.java)
-                dbUpLoader(documentReference, writeInfo);
+                PostInfo postInfo = new PostInfo(title, contentlist, user.getUid(), new Date());    // 회원 정보 객체 (MemberInfo.java)
+                dbUpLoader(documentReference, postInfo);
             }
         } else {
             startToast("게시글 제목을 입력해주세요.");
@@ -242,8 +242,8 @@ public class WritePostActivity extends BasicActivity {
     }
 
     // DB 등록
-    private void dbUpLoader(DocumentReference documentReference, WriteInfo writeInfo) {
-        documentReference.set(writeInfo)
+    private void dbUpLoader(DocumentReference documentReference, PostInfo postInfo) {
+        documentReference.set(postInfo)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

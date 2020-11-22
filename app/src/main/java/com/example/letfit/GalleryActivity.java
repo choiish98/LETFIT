@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class GalleryActivity extends BasicActivity {
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +37,8 @@ public class GalleryActivity extends BasicActivity {
                 startToast("권한을 허용해 주세요.");
             }
         } else {
-            //startActivity(GalleryActivity.class);
+            recyclerInit();
         }
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        final int numberOfColumns = 3;
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-
-        mAdapter = new GalleryAdapter(this, getImagesPath(this));
-        recyclerView.setAdapter(mAdapter);
     }
 
     public static ArrayList<String> getImagesPath(Activity activity) {
@@ -80,18 +67,24 @@ public class GalleryActivity extends BasicActivity {
         switch (requestCode) {
             case 1: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    gotoActivity(GalleryActivity.class);
+                    recyclerInit();
                 } else {
+                    finish();
                     startToast("권한을 허용해 주세요.");
                 }
             }
         }
     }
 
-    // intent Acitivity 정의
-    private void gotoActivity(Class c) {
-        Intent intent = new Intent(GalleryActivity.this, c);
-        startActivity(intent);
+    private void recyclerInit(){
+        final int numberOfColumns = 3;
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+
+        RecyclerView.Adapter mAdapter = new GalleryAdapter(this, getImagesPath(this));
+        recyclerView.setAdapter(mAdapter);
     }
 
     private void startToast(String msg) {

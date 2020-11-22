@@ -3,13 +3,13 @@ package com.example.letfit;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class WriteInfo {
+public class PostInfo {
     private String title;       // 닉네임
     private ArrayList<String> contents;    // 내용
     private String publisher;   // 작성자
     private Date createDate; // 생성일
 
-    public WriteInfo(String title, ArrayList<String> contents, String publisher, Date createDate){
+    public PostInfo(String title, ArrayList<String> contents, String publisher, Date createDate){
         this.title = title;
         this.contents = contents;
         this.publisher = publisher;
