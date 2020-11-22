@@ -43,6 +43,7 @@ public class WritePostActivity extends BasicActivity {
     private int pathCount, successCount;
     private RelativeLayout buttonsBackgroudLayout;
     private ImageView selectedImageView;
+    private EditText selectedEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,14 @@ public class WritePostActivity extends BasicActivity {
         findViewById(R.id.check).setOnClickListener(onClickListener);
         findViewById(R.id.imageModify).setOnClickListener(onClickListener);
         findViewById(R.id.delete).setOnClickListener(onClickListener);
+        findViewById(R.id.titleEditText).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    selectedEditText = null;
+                }
+            }
+        });
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -76,9 +85,11 @@ public class WritePostActivity extends BasicActivity {
                     break;
                 case R.id.imageModify:
                     gotoActivity(GalleryActivity.class, 1);
+                    buttonsBackgroudLayout.setVisibility(View.GONE);
                     break;
                 case R.id.delete:
                     parent.removeView((View)selectedImageView.getParent());
+                    buttonsBackgroudLayout.setVisibility(View.GONE);
                     break;
             }
         }
@@ -100,7 +111,17 @@ public class WritePostActivity extends BasicActivity {
                     LinearLayout linearLayout = new LinearLayout(WritePostActivity.this);
                     linearLayout.setLayoutParams(layoutParams);
                     linearLayout.setOrientation(LinearLayout.VERTICAL);
-                    parent.addView(linearLayout);
+
+                    if(selectedEditText == null){
+                        parent.addView(linearLayout);
+                    } else {
+                        for (int i = 0; i < parent.getChildCount(); i++) {
+                            if (parent.getChildAt(i) == selectedEditText.getParent()) {
+                                parent.addView(linearLayout, i + 1);
+                                break;
+                            }
+                        }
+                    }
 
                     ImageView imageView = new ImageView(WritePostActivity.this);
                     imageView.setLayoutParams(layoutParams);
@@ -121,6 +142,7 @@ public class WritePostActivity extends BasicActivity {
                     editText.setLayoutParams(layoutParams);
                     editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_CLASS_TEXT);
                     editText.setHint("내용");
+                    editText.setOnFocusChangeListener(onFocusChangeListener);
                     linearLayout.addView(editText);
                 }
                 break;
@@ -136,6 +158,15 @@ public class WritePostActivity extends BasicActivity {
         }
     }
 
+    View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if(b){
+                selectedEditText = (EditText) view;
+            }
+        }
+    };
+
     // 게시글 등록
     private void storageUpload() {
         final String title = ((EditText)findViewById(R.id.titleEditText)).getText().toString();   //
@@ -146,8 +177,7 @@ public class WritePostActivity extends BasicActivity {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
             FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-            final DocumentReference documentReference = firebaseFirestore.collection("cities").document();
-
+            final DocumentReference documentReference = firebaseFirestore.collection("posts").document();
 
             for(int i = 0; i < parent.getChildCount(); i++){
                 View view = parent.getChildAt(i);
@@ -199,8 +229,12 @@ public class WritePostActivity extends BasicActivity {
                     pathCount++;
                 }
             }
+            if(pathList.size() == 0){
+                WriteInfo writeInfo = new WriteInfo(title, contentlist, user.getUid(), new Date());    // 회원 정보 객체 (MemberInfo.java)
+                dbUpLoader(documentReference, writeInfo);
+            }
         } else {
-            startToast("게시글 내용을 입력해주세요.");
+            startToast("게시글 제목을 입력해주세요.");
         }
     }
 
@@ -211,6 +245,7 @@ public class WritePostActivity extends BasicActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.d(TAG, "DocumentSnapshot successfully written!");
+                    finish();
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
