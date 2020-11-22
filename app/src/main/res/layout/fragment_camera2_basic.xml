@@ -41,7 +41,7 @@
             android:text="촬영" />
 
         <Button
-            android:id="@+id/gallery"
+            android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

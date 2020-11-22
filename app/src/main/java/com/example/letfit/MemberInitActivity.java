@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
@@ -47,7 +46,7 @@ public class MemberInitActivity extends BasicActivity {
         profileImageView.setOnClickListener(onClickListener); // 프로필 사진 설정
         findViewById(R.id.checkBtn).setOnClickListener(onClickListener); // 회원정보 입력 버튼 클릭 함수
         findViewById(R.id.picture).setOnClickListener(onClickListener); // 촬영 버튼 클릭 함수
-        findViewById(R.id.gallery).setOnClickListener(onClickListener); // 갤러리 버튼 클릭 함수
+        findViewById(R.id.delete).setOnClickListener(onClickListener); // 갤러리 버튼 클릭 함수
 
     }
 
@@ -70,7 +69,7 @@ public class MemberInitActivity extends BasicActivity {
                 case R.id.picture: // 촬영 버튼 클릭 시
                     gotoActivity(CameraActivity.class);
                     break;
-                case R.id.gallery: // 갤러리 클릭 시
+                case R.id.delete: // 갤러리 클릭 시
                     gotoActivity(GalleryActivity.class);
                     break;
             }

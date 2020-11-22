@@ -445,7 +445,7 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         view.findViewById(R.id.picture).setOnClickListener(this);
-        view.findViewById(R.id.gallery).setOnClickListener(this);
+        view.findViewById(R.id.delete).setOnClickListener(this);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
     }
 
@@ -919,7 +919,7 @@ public class Camera2BasicFragment extends Fragment
                 takePicture();
                 break;
             }
-            case R.id.gallery:
+            case R.id.delete:
                 // 카메라가 전면일 때
                 if(facingId == CameraCharacteristics.LENS_FACING_FRONT) {
                     facingId = CameraCharacteristics.LENS_FACING_BACK;
