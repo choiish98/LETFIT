@@ -44,6 +44,7 @@ public class WritePostActivity extends BasicActivity {
     private RelativeLayout buttonsBackgroudLayout;
     private ImageView selectedImageView;
     private EditText selectedEditText;
+    private RelativeLayout loaderLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class WritePostActivity extends BasicActivity {
 
         buttonsBackgroudLayout = findViewById(R.id.buttonsBackgroudLayout);
         parent = findViewById(R.id.contentsLayout);
+        loaderLayout = findViewById(R.id.loaderLayout);
 
         buttonsBackgroudLayout.setOnClickListener(onClickListener);
         findViewById(R.id.image).setOnClickListener(onClickListener);
@@ -61,7 +63,7 @@ public class WritePostActivity extends BasicActivity {
         findViewById(R.id.titleEditText).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(b){
+                if (b) {
                     selectedEditText = null;
                 }
             }
@@ -71,7 +73,7 @@ public class WritePostActivity extends BasicActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.check:
                     storageUpload();
                     break;
@@ -79,7 +81,7 @@ public class WritePostActivity extends BasicActivity {
                     gotoActivity(GalleryActivity.class, 0);
                     break;
                 case R.id.buttonsBackgroudLayout:
-                    if(buttonsBackgroudLayout.getVisibility() == View.VISIBLE){
+                    if (buttonsBackgroudLayout.getVisibility() == View.VISIBLE) {
                         buttonsBackgroudLayout.setVisibility(View.GONE);
                     }
                     break;
@@ -88,7 +90,7 @@ public class WritePostActivity extends BasicActivity {
                     buttonsBackgroudLayout.setVisibility(View.GONE);
                     break;
                 case R.id.delete:
-                    parent.removeView((View)selectedImageView.getParent());
+                    parent.removeView((View) selectedImageView.getParent());
                     buttonsBackgroudLayout.setVisibility(View.GONE);
                     break;
             }
@@ -100,8 +102,8 @@ public class WritePostActivity extends BasicActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case 0 :
-                if(resultCode == Activity.RESULT_OK){
+            case 0:
+                if (resultCode == Activity.RESULT_OK) {
                     String profilePath = data.getStringExtra("profilePath");
                     pathList.add(profilePath); // 사진 추가할 때마다 arraylist에 추가
 
@@ -112,7 +114,7 @@ public class WritePostActivity extends BasicActivity {
                     linearLayout.setLayoutParams(layoutParams);
                     linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-                    if(selectedEditText == null){
+                    if (selectedEditText == null) {
                         parent.addView(linearLayout);
                     } else {
                         for (int i = 0; i < parent.getChildCount(); i++) {
@@ -147,7 +149,7 @@ public class WritePostActivity extends BasicActivity {
                 }
                 break;
             case 1:
-                if(resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
                     String profilePath = data.getStringExtra("profilePath");
                     Glide.with(this)
                             .load(profilePath)
@@ -161,7 +163,7 @@ public class WritePostActivity extends BasicActivity {
     View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View view, boolean b) {
-            if(b){
+            if (b) {
                 selectedEditText = (EditText) view;
             }
         }
@@ -169,9 +171,10 @@ public class WritePostActivity extends BasicActivity {
 
     // 게시글 등록
     private void storageUpload() {
-        final String title = ((EditText)findViewById(R.id.titleEditText)).getText().toString();   //
+        final String title = ((EditText) findViewById(R.id.titleEditText)).getText().toString();   //
 
-        if(title.length() > 0) {
+        if (title.length() > 0) {
+            loaderLayout.setVisibility(View.VISIBLE);
             final ArrayList<String> contentlist = new ArrayList<>();    // view 객체의 EditText를 담을 공간
             user = FirebaseAuth.getInstance().getCurrentUser();
             FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -179,20 +182,20 @@ public class WritePostActivity extends BasicActivity {
             FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
             final DocumentReference documentReference = firebaseFirestore.collection("posts").document();
 
-            for(int i = 0; i < parent.getChildCount(); i++){
+            for (int i = 0; i < parent.getChildCount(); i++) {
                 View view = parent.getChildAt(i);
-                if(view instanceof EditText) {
-                    String text = ((EditText)view).getText().toString();
-                    if(text.length() > 0) {
+                if (view instanceof EditText) {
+                    String text = ((EditText) view).getText().toString();
+                    if (text.length() > 0) {
                         contentlist.add(text);
                     }
                 } else {
                     contentlist.add(pathList.get(pathCount));
                     // db 등록 로직
-                    final  StorageReference mountainImagesRef = storageRef.child("posts/"+documentReference.getId()+"/"+ pathCount +".jpg");
-                    try{
+                    final StorageReference mountainImagesRef = storageRef.child("posts/" + documentReference.getId() + "/" + pathCount + ".jpg");
+                    try {
                         InputStream stream = new FileInputStream(new File(pathList.get(pathCount)));
-                        StorageMetadata metadata = new StorageMetadata.Builder().setCustomMetadata("index", ""+(contentlist.size()-1)).build();
+                        StorageMetadata metadata = new StorageMetadata.Builder().setCustomMetadata("index", "" + (contentlist.size() - 1)).build();
                         UploadTask uploadTask = mountainImagesRef.putStream(stream, metadata);
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -209,27 +212,27 @@ public class WritePostActivity extends BasicActivity {
                                     public void onSuccess(Uri uri) {
                                         contentlist.set(index, uri.toString());
                                         successCount++;
-                                        if(pathList.size() == successCount){
+                                        if (pathList.size() == successCount) {
                                             //finish
 
                                             WriteInfo writeInfo = new WriteInfo(title, contentlist, user.getUid(), new Date());    // 회원 정보 객체 (MemberInfo.java)
                                             dbUpLoader(documentReference, writeInfo);                                                  // db upload
 
-                                            for(int a = 0; a < contentlist.size(); a++){
-                                                Log.e("로그", "콘텐츠"+contentlist.get(a));
+                                            for (int a = 0; a < contentlist.size(); a++) {
+                                                Log.e("로그", "콘텐츠" + contentlist.get(a));
                                             }
                                         }
                                     }
                                 });
                             }
                         });
-                    }catch (FileNotFoundException e){
-                        Log.e("로그", "에러: "+e.toString());
+                    } catch (FileNotFoundException e) {
+                        Log.e("로그", "에러: " + e.toString());
                     }
                     pathCount++;
                 }
             }
-            if(pathList.size() == 0){
+            if (pathList.size() == 0) {
                 WriteInfo writeInfo = new WriteInfo(title, contentlist, user.getUid(), new Date());    // 회원 정보 객체 (MemberInfo.java)
                 dbUpLoader(documentReference, writeInfo);
             }
@@ -239,21 +242,23 @@ public class WritePostActivity extends BasicActivity {
     }
 
     // DB 등록
-    private void dbUpLoader(DocumentReference documentReference, WriteInfo writeInfo){
+    private void dbUpLoader(DocumentReference documentReference, WriteInfo writeInfo) {
         documentReference.set(writeInfo)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                    finish();
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error writing document", e);
-                }
-            });
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        loaderLayout.setVisibility(View.GONE);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                        loaderLayout.setVisibility(View.GONE);
+                    }
+                });
     }
 
     // toast

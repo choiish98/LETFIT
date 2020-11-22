@@ -3,6 +3,7 @@ package com.example.letfit;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,19 +38,22 @@ public class PasswordReset extends BasicActivity {
     };
 
     private void send() {     //회원가입 함수
-        String email = ((EditText)findViewById(R.id.emailEditText)).getText().toString();   //이메일
+        String email = ((EditText) findViewById(R.id.emailEditText)).getText().toString();   //이메일
 
-        if(email.length() > 0 ) {
+        if (email.length() > 0) {
+            final RelativeLayout loaderLayout = findViewById(R.id.loaderLayout);
+            loaderLayout.setVisibility(View.VISIBLE);
             mAuth.sendPasswordResetEmail(email)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            loaderLayout.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 startToast("이메일을 보냈습니다.");
                             }
                         }
                     });
-            } else {
+        } else {
             startToast("이메일을 입력해주세요.");
         }
     }

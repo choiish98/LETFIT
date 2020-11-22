@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class MemberInitActivity extends BasicActivity {
     private ImageView profileImageView; // 프로필 사진
     private String profilePath;
     private FirebaseUser user;
+    private RelativeLayout loaderLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class MemberInitActivity extends BasicActivity {
         findViewById(R.id.checkBtn).setOnClickListener(onClickListener); // 회원정보 입력 버튼 클릭 함수
         findViewById(R.id.picture).setOnClickListener(onClickListener); // 촬영 버튼 클릭 함수
         findViewById(R.id.delete).setOnClickListener(onClickListener); // 갤러리 버튼 클릭 함수
-
+        loaderLayout = findViewById(R.id.loaderLayout);
     }
 
     // click listener
@@ -60,7 +62,7 @@ public class MemberInitActivity extends BasicActivity {
                     break;
                 case R.id.profileImageView: // 프로필 사진 클릭 시
                     CardView cardView = findViewById(R.id.buttonsCardView); // 카드뷰가 보임
-                    if(cardView.getVisibility() == View.VISIBLE){
+                    if (cardView.getVisibility() == View.VISIBLE) {
                         cardView.setVisibility(View.GONE);
                     } else {
                         cardView.setVisibility(View.VISIBLE);
@@ -88,8 +90,8 @@ public class MemberInitActivity extends BasicActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case 0 : {
-                if(resultCode == Activity.RESULT_OK){
+            case 0: {
+                if (resultCode == Activity.RESULT_OK) {
                     profilePath = data.getStringExtra("profilePath");
                     Glide.with(this)
                             .load(profilePath)
@@ -104,25 +106,26 @@ public class MemberInitActivity extends BasicActivity {
 
     // 프로필 업데이트
     private void profileUpdate() {
-        final String nickName = ((EditText)findViewById(R.id.nickNameEditText)).getText().toString();   // 닉네임
-        final String weight = ((EditText)findViewById(R.id.weightEditText)).getText().toString();   // 몸무게
-        final String height = ((EditText)findViewById(R.id.heightEditText)).getText().toString();   // 키
+        final String nickName = ((EditText) findViewById(R.id.nickNameEditText)).getText().toString();   // 닉네임
+        final String weight = ((EditText) findViewById(R.id.weightEditText)).getText().toString();   // 몸무게
+        final String height = ((EditText) findViewById(R.id.heightEditText)).getText().toString();   // 키
 
-        if(nickName.length() > 0 && weight.length() > 0 && height.length() > 2) {
+        if (nickName.length() > 0 && weight.length() > 0 && height.length() > 2) {
+            loaderLayout.setVisibility(View.VISIBLE);
 
             FirebaseStorage storage = FirebaseStorage.getInstance();
             // Create a storage reference from our app
             StorageReference storageRef = storage.getReference();
             // Create a reference to 'images/mountains.jpg'
             user = FirebaseAuth.getInstance().getCurrentUser();
-            final  StorageReference mountainImagesRef = storageRef.child("users/"+user.getUid()+"/profileImage.jpg");
+            final StorageReference mountainImagesRef = storageRef.child("users/" + user.getUid() + "/profileImage.jpg");
 
 
-            if(profilePath == null){
+            if (profilePath == null) {
                 MemberInfo memberInfo = new MemberInfo(nickName, weight, height); // 회원 정보 객체 (MemberInfo.java)
                 upLoader(memberInfo);
             } else {
-                try{
+                try {
                     InputStream stream = new FileInputStream(new File(profilePath));
                     UploadTask uploadTask = mountainImagesRef.putStream(stream);
                     uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -149,8 +152,8 @@ public class MemberInitActivity extends BasicActivity {
                             }
                         }
                     });
-                }catch (FileNotFoundException e){
-                    Log.e("로그", "에러: "+e.toString());
+                } catch (FileNotFoundException e) {
+                    Log.e("로그", "에러: " + e.toString());
                 }
             }
         } else {
@@ -163,7 +166,7 @@ public class MemberInitActivity extends BasicActivity {
     }
 
     // DB 등록
-    private void upLoader(MemberInfo memberInfo){
+    private void upLoader(MemberInfo memberInfo) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // DB set
         db.collection("users").document(user.getUid()).set(memberInfo)
@@ -171,6 +174,7 @@ public class MemberInitActivity extends BasicActivity {
                     @Override
                     public void onSuccess(Void avoid) {
                         startToast("회원 정보 등록을 성공하였습니다.");
+                        loaderLayout.setVisibility(View.GONE);
                         finish();
                     }
                 })
@@ -178,6 +182,7 @@ public class MemberInitActivity extends BasicActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         startToast("회원 정보 등록에 실패하였습니다.");
+                        loaderLayout.setVisibility(View.GONE);
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
