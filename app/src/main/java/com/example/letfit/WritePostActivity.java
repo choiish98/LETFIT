@@ -139,13 +139,6 @@ public class WritePostActivity extends BasicActivity {
                             .override(1000)
                             .into(imageView);
                     linearLayout.addView(imageView);
-
-                    EditText editText = new EditText(WritePostActivity.this);
-                    editText.setLayoutParams(layoutParams);
-                    editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_CLASS_TEXT);
-                    editText.setHint("내용");
-                    editText.setOnFocusChangeListener(onFocusChangeListener);
-                    linearLayout.addView(editText);
                 }
                 break;
             case 1:
@@ -191,8 +184,11 @@ public class WritePostActivity extends BasicActivity {
                     }
                 } else {
                     contentlist.add(pathList.get(pathCount));
+
                     // db 등록 로직
-                    final StorageReference mountainImagesRef = storageRef.child("posts/" + documentReference.getId() + "/" + pathCount + ".jpg");
+                    String[] pathArray = pathList.get(pathCount).split("\\.");
+                    final StorageReference mountainImagesRef = storageRef.child("posts/"
+                            + documentReference.getId() + "/" + pathCount + "." + pathArray[pathArray.length-1]);
                     try {
                         InputStream stream = new FileInputStream(new File(pathList.get(pathCount)));
                         StorageMetadata metadata = new StorageMetadata.Builder().setCustomMetadata("index", "" + (contentlist.size() - 1)).build();
@@ -215,7 +211,7 @@ public class WritePostActivity extends BasicActivity {
                                         if (pathList.size() == successCount) {
                                             //finish
 
-                                            PostInfo postInfo = new PostInfo(title, contentlist, user.getUid(), new Date());    // 회원 정보 객체 (MemberInfo.java)
+                                            PostInfo postInfo = new PostInfo(title, contentlist, user.getUid(), new Date(), "0");// 회원 정보 객체 (MemberInfo.java)
                                             dbUpLoader(documentReference, postInfo);                                                  // db upload
 
                                             for (int a = 0; a < contentlist.size(); a++) {
@@ -233,7 +229,7 @@ public class WritePostActivity extends BasicActivity {
                 }
             }
             if (pathList.size() == 0) {
-                PostInfo postInfo = new PostInfo(title, contentlist, user.getUid(), new Date());    // 회원 정보 객체 (MemberInfo.java)
+                PostInfo postInfo = new PostInfo(title, contentlist, user.getUid(), new Date(), "0");    // 회원 정보 객체 (MemberInfo.java)
                 dbUpLoader(documentReference, postInfo);
             }
         } else {

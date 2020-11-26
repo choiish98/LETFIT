@@ -38,7 +38,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 import static android.graphics.Color.rgb;
-// 빨리 다운 로드 해라 이것들아;
+
+/*
+<intent-filter>
+<action android:name="android.intent.action.MAIN" />
+
+<category android:name="android.intent.category.LAUNCHER" />
+</intent-filter>
+*/
 
 public class MainActivity extends BasicActivity {
     private static final String TAG = "MainAcitivty";
@@ -86,7 +93,6 @@ public class MainActivity extends BasicActivity {
         radarChart.getDescription().setEnabled(false);
 
         radarChart.setWebColor(Color.WHITE);        // 세로줄 없애기
-        radarChart.setWebLineWidth(1f);
         radarChart.setWebColorInner(Color.WHITE);   // 가로줄 없애기
         radarChart.setWebAlpha(100);
         radarChart.getLegend().setTextColor(Color.WHITE);
@@ -138,6 +144,8 @@ public class MainActivity extends BasicActivity {
 
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
+        mChart.setGridBackgroundColor(Color.WHITE);
+        mChart.setBorderColor(Color.WHITE);
 
         ArrayList<Entry> yValues = new ArrayList<>();
 
@@ -152,6 +160,10 @@ public class MainActivity extends BasicActivity {
         LineDataSet set1 = new LineDataSet(yValues, "Data set 1");
 
         set1.setFillAlpha(110);
+        set1.setColor(rgb(150, 31, 47));
+        set1.setLineWidth(2f);
+        set1.setValueTextColor(Color.WHITE);
+        set1.setCircleColor(rgb(150, 31, 47));
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);

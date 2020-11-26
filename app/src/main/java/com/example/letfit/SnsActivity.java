@@ -13,8 +13,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -23,6 +25,9 @@ import java.util.Date;
 
 public class SnsActivity extends BasicActivity {
     private static final String TAG = "SnsActivity";
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseUser firebaseUser;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +36,19 @@ public class SnsActivity extends BasicActivity {
         findViewById(R.id.floatingActionButton).setOnClickListener(onClickListener);
 
         // 회원 정보 가져오기
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        firebaseFirestore= FirebaseFirestore.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        // 게시글 가져오기기
-        db.collection("posts")
-                .get()
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(SnsActivity.this));
+    }
+
+    protected void onResume(){
+        super.onResume();
+
+        CollectionReference collectionReference = firebaseFirestore.collection("posts");
+        collectionReference.orderBy("createDate", Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -47,13 +60,10 @@ public class SnsActivity extends BasicActivity {
                                         document.get("title").toString(),
                                         (ArrayList<String>) document.get("contents"),
                                         document.get("publisher").toString(),
-                                        new Date(document.getDate("createDate").getTime())
+                                        new Date(document.getDate("createDate").getTime()),
+                                        "0"
                                 ));
                             }
-                            RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                            recyclerView.setHasFixedSize(true);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(SnsActivity.this));
-
                             RecyclerView.Adapter mAdapter = new PostAdapter(SnsActivity.this, postList);
                             recyclerView.setAdapter(mAdapter);
                         } else {
