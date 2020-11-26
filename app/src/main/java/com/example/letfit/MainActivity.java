@@ -144,8 +144,13 @@ public class MainActivity extends BasicActivity {
 
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(false);
-        mChart.setGridBackgroundColor(Color.WHITE);
-        mChart.setBorderColor(Color.WHITE);
+        mChart.setDrawGridBackground(false);
+        mChart.getXAxis().setDrawLabels(false);
+        mChart.getAxisLeft().setDrawLabels(false);
+        mChart.getAxisRight().setDrawLabels(false);
+        mChart.getXAxis().setDrawGridLines(false);
+        mChart.getAxisRight().setDrawGridLines(false);
+        mChart.getAxisLeft().setDrawGridLines(false);
 
         ArrayList<Entry> yValues = new ArrayList<>();
 
@@ -162,8 +167,12 @@ public class MainActivity extends BasicActivity {
         set1.setFillAlpha(110);
         set1.setColor(rgb(150, 31, 47));
         set1.setLineWidth(2f);
-        set1.setValueTextColor(Color.WHITE);
         set1.setCircleColor(rgb(150, 31, 47));
+        set1.setFillColor(rgb(150, 31, 47));
+        set1.setDrawHighlightIndicators(false);
+        set1.setDrawValues(false);
+        set1.setValueTextColor(Color.WHITE);
+
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
@@ -180,10 +189,13 @@ public class MainActivity extends BasicActivity {
         barChart.setMaxVisibleValueCount(50);
         barChart.setDrawValueAboveBar(true);
         barChart.setPinchZoom(false);
-        barChart.setDrawGridBackground(true);
+        barChart.setDrawGridBackground(false);
+        barChart.setDrawValueAboveBar(false);
+        barChart.getXAxis().setDrawLabels(false);
+        barChart.getAxisLeft().setDrawLabels(false);
+        barChart.getAxisRight().setDrawLabels(false);
 
         ArrayList<BarEntry> barEntries = new ArrayList<>();
-
 
         barEntries.add(new BarEntry(1,5f));
         barEntries.add(new BarEntry(2,10f));
